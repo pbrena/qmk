@@ -7,18 +7,19 @@
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID    0xFEED
-#define PRODUCT_ID   0x6465
-#define DEVICE_VER   0x0001
-#define MANUFACTURER QMK
-
-#define PRODUCT Pad3x3 Raspberry Pi RP2040
+// PRODUCT in config.h is deprecated in favor of `keyboard_name`
+// in info.json and will be removed at a later date
+// #define VENDOR_ID    0xFEED
+// #define PRODUCT_ID   0x6465
+// #define DEVICE_VER   0x0001
+// #define MANUFACTURER QMK
+// #define PRODUCT Pad3x3 Raspberry Pi RP2040
 
 /* key matrix size */
-#define MATRIX_ROWS 3
-#define MATRIX_COLS 3
-#define MATRIX_COL_PINS { GP0,  GP1,  GP2  }
-#define MATRIX_ROW_PINS { GP13, GP14, GP15 }
+// #define MATRIX_ROWS 3
+// #define MATRIX_COLS 3
+// #define MATRIX_COL_PINS { GP0,  GP1,  GP2  }
+// #define MATRIX_ROW_PINS { GP13, GP14, GP15 }
 #define DEBUG_MATRIX_SCAN_RATE
 /* COL2ROW, ROW2COL */
 #define DIODE_DIRECTION COL2ROW

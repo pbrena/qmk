@@ -1,0 +1,25 @@
+{
+    "keyboard_name": "Pad3x3 Raspberry Pico RP2040",
+    "manufacturer": "QMK-Hanwired",
+    "processor": "RP2040",
+    "bootloader": "rp2040",
+    "usb": {
+        "vid": "0xFEED",
+        "pid": "0x6465",
+        "device_version": "0.0.1"
+    }
+    "matrix_pins": {
+        "cols": ["GP0",  "GP1",  "GP2" ],
+        "rows": ["GP13", "GP14", "GP15"]
+    }
+}
+
+/*
+
+"backlight": {
+    "pin": "GP25"
+},
+"rgblight": {
+    "pin": "GP25"
+
+*/
