@@ -1,19 +1,7 @@
 {
-    "keyboard_name": "kbergo36Clone Raspberry Pico RP2040",
-    "manufacturer": "QMK-Hanwired",
-    "processor": "RP2040",
-    "bootloader": "rp2040",
+    "keyboard_name": "kbergo36",
     "url": "",
     "maintainer": "qmk",
-    "usb": {
-        "vid": "0xFEED",
-        "pid": "0x6465",
-        "device_version": "0.0.1"
-    }
-    "matrix_pins": {
-        "cols": [ "GP0",  "GP1",  "GP2",  "GP3",  "GP4",  "GP5"  ],
-        "rows": [ "GP10", "GP11", "GP12", "GP28", "GP14", "GP15" ]
-    }
     "layouts": {
         "LAYOUT": {
             "layout": [

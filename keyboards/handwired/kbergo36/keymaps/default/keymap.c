@@ -1,6 +1,7 @@
-#include QMK_KEYBOARD_H
+// Copyright 2023 Pablo Brena
+// SPDX-License-Identifier: GPL-2.0-or-later
 
-//  LAYOUT(
+#include QMK_KEYBOARD_H
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  [0] = LAYOUT(
@@ -11,15 +12,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         )
 };
 
-bool encoder_update_user(uint8_t index, bool clockwise) {
-  if (clockwise) {
-    tap_code(KC_KB_VOLUME_UP);
-  } else {
-    tap_code(KC_KB_VOLUME_DOWN);
-  }
-  return false;
-}
+#ifdef ENCODER_ENABLE
+    bool encoder_update_user(uint8_t index, bool clockwise) {
+        if (clockwise) {
+            tap_code(KC_KB_VOLUME_UP);
+        } else {
+            tap_code(KC_KB_VOLUME_DOWN);
+        }
+        return false;
+    }
+#endif
 
+#ifdef OLED_ENABLE
+    // Rotate OLED
+    // oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    //     return OLED_ROTATION_90;
+    // }
+    // Draw to OLED
+    bool oled_task_user() {
+        // Set cursor position
+        oled_set_cursor(0, 1);
+        // Write text to OLED
+        oled_write("Hello World!", false);
+        return false;
+    }
+#endif
+
+/*
 #ifdef OLED_ENABLE
 bool oled_task_user(void) {
     // Host Keyboard Layer Status
@@ -29,8 +48,6 @@ bool oled_task_user(void) {
 }
 #endif
 
-/*
- 
 #ifdef OLED_ENABLE
 bool oled_task_user(void) {
     // Host Keyboard Layer Status
@@ -44,7 +61,7 @@ bool oled_task_user(void) {
     return false;
 }
 #endif
- 
+
  switch (get_highest_layer(layer_state)) {
      case _QWERTY:
          oled_write_P(PSTR("Default\n"), false);
@@ -60,12 +77,12 @@ bool oled_task_user(void) {
          oled_write_ln_P(PSTR("Undefined"), false);
  }
  // Host Keyboard LED Status
- 
+
  led_t led_state = host_keyboard_led_state();
  oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
  oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
  oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
- 
+
  static void render_logo(void) {
  static const char PROGMEM qmk_logo[] = {
      0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94,
@@ -74,7 +91,7 @@ bool oled_task_user(void) {
  };
 
  oled_write_P(qmk_logo, false);
- 
+
 */
 
 /* Copyright 2019 Thomas Baart <thomas@splitkb.com>
@@ -138,7 +155,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |Adjust| LGUI | LAlt/| Space| Nav  |  | Sym  | Space| AltGr| RGUI | Menu |
  *                        |      |      | Enter|      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
- 
+
     [_QWERTY] = LAYOUT(
      KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                        KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_BSPC,
      CTL_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                        KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,CTL_QUOT,
@@ -147,7 +164,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 
- 
+
  * Sym Layer: Numbers and symbols
  *
  * ,-------------------------------------------.                              ,-------------------------------------------.
@@ -172,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * These default settings can be overriden by your own settings in your keymap.c
  * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
  * DO NOT edit the rev1.c file; instead override the weakly defined default functions by your own.
- 
+
 
 DELETE THIS LINE TO UNCOMMENT (1/2)
 #ifdef OLED_ENABLE

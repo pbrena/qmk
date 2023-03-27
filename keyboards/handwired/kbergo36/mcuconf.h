@@ -12,18 +12,7 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-#ifndef MCUCONF_H
-#define MCUCONF_H
-
-#include "mcuconf.h"
-
-#undef RP_I2C_USE_I2C0
-#define RP_I2C_USE_I2C0 TRUE
-
-#endif
-
-MCUCONF_H */
+*/
 
 #pragma once
 
@@ -31,3 +20,10 @@ MCUCONF_H */
 
 #undef RP_I2C_USE_I2C0
 #define RP_I2C_USE_I2C0 TRUE
+
+#undef RP_I2C_USE_I2C1
+#define RP_I2C_USE_I2C1 FALSE
+
+// QMK numbers the I2C peripherals differently when it comes to defining the I2C_DRIVER
+// so add 1 (I2C0 is I2CD1 and I2C1 is I2CD2). This way, you can use any appropriate pair
+// of pins that are capable of I2C on the RP2040.

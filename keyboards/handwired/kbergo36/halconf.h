@@ -1,17 +1,4 @@
-/* Antes
- 
- 
- #define HALCONF_H
- 
- #define _CHIBIOS_HAL_CONF_
- #define _CHIBIOS_HAL_CONF_VER_7_1_
- 
- #include "mcuconf.h"
- 
- #define HAL_USE_I2C TRUE
- 
- 
- 
+/*
  Copyright 2020 QMK
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -30,5 +17,11 @@
 #pragma once
 
 #define HAL_USE_I2C    TRUE
-
 #include_next <halconf.h>
+
+// Antes
+//  #define HALCONF_H
+//  #define _CHIBIOS_HAL_CONF_
+//  #define _CHIBIOS_HAL_CONF_VER_7_1_
+//  #include "mcuconf.h"
+//  #define HAL_USE_I2C TRUE

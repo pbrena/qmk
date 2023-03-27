@@ -31,4 +31,4 @@
                                    { R30,           R20, R21, R22, R23, R24 }  \
 }
 
-#define kEYMAP LAYOUT
+// #define kEYMAP LAYOUT
