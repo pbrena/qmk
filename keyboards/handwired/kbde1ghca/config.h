@@ -6,32 +6,17 @@
 
 #include "config_common.h"
 
-/* USB Device descriptor parameter */
-// PRODUCT in config.h is deprecated in favor of `keyboard_name`
-// in info.json and will be removed at a later date
-// #define VENDOR_ID    0xFEED
-// #define PRODUCT_ID   0x6465
-// #define DEVICE_VER   0x0001
-// #define MANUFACTURER QMK
-// #define PRODUCT Pad3x3 Raspberry Pi RP2040
-
-/* key matrix size */
-// #define MATRIX_ROWS 3
-// #define MATRIX_COLS 3
-// #define MATRIX_COL_PINS { GP0,  GP1,  GP2  }
-// #define MATRIX_ROW_PINS { GP13, GP14, GP15 }
 #define DEBUG_MATRIX_SCAN_RATE
 /* COL2ROW, ROW2COL */
-#define DIODE_DIRECTION COL2ROW
+#define DIODE_DIRECTION COL2ROW  // No permite omitirlo
 /* define if matrix has ghost (lacks anti-ghosting diodes) */
-//#define MATRIX_HAS_GHOST
+#define MATRIX_HAS_GHOST
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
-
 
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_LED GP25
@@ -45,18 +30,14 @@
  * Feature disable options
  *  These options are also useful to firmware size reduction.
  */
-
 /* disable debug print */
 //#define NO_DEBUG
-
 /* disable print */
 //#define NO_PRINT
-
 /* disable action features */
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
-
 /* Bootmagic Lite key configuration */
 //#define BOOTMAGIC_LITE_ROW 0
 //#define BOOTMAGIC_LITE_COLUMN 0

@@ -23,4 +23,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            LSFT(LCTL(LALT(KC_S))),  KC_E,            KC_P
     )
 };
-
