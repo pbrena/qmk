@@ -8,3 +8,4 @@ Double-tap reset to enter bootloader mode. Copy the built uf2 file to the device
 qmk config user.keyboard=handwired/kbde1ghca user.keymap=default
 qmk compile -kb handwired/kbde1ghca -km default
 qmk compile -kb <keyboard> -km <keymap>
+qmk lint

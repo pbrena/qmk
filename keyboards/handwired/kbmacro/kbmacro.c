@@ -1,0 +1,12 @@
+// Copyright 2023 Pablo Brena
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#include QMK_KEYBOARD_H
+#include "kbmacro.h"
+
+void keyboard_post_init_user(void) {
+    debug_enable   = true;
+    debug_matrix   = true;
+    debug_keyboard = true;
+    debug_mouse    = true;
+}

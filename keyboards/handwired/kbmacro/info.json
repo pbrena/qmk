@@ -1,0 +1,29 @@
+{
+    "keyboard_name": "kbmacro RasPico RP2040",
+    "manufacturer": "QMK-Hanwired",
+    "processor": "RP2040",
+    "bootloader": "rp2040",
+    "url": "",
+    "maintainer": "qmk",
+    "usb": {
+        "vid": "0xFEED",
+        "pid": "0x6465",
+        "device_version": "0.0.1"
+    }
+    "matrix_pins": {
+        "rows": [ "GP10", "GP11", "GP12" ],
+        "cols": [ "GP0",  "GP1" ]
+    }
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                {"label":"L00", "x":0, "y":0.25},
+                {"label":"L01", "x":1, "y":0.125},
+                {"label":"L02", "x":2, "y":0},
+                {"label":"L03", "x":3, "y":0.125},
+                {"label":"L04", "x":4, "y":0.375},
+                {"label":"L05", "x":8, "y":0.375}
+            ]
+        }
+    }
+}

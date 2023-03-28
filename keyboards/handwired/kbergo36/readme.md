@@ -7,7 +7,7 @@ Double-tap reset to enter bootloader mode. Copy the built uf2 file to the device
 * Raspberry Pi Pico
 
 qmk config user.keyboard=handwired/kbergo36 user.keymap=default
-qmk compile -kb <keyboard> -km <keymap>
+qmk compile -kb handwired/kbergo36 -km default
 qmk compile -kb <keyboard> -km <keymap>
 qmk lint
 
