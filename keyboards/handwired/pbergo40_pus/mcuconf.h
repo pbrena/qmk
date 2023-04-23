@@ -18,8 +18,9 @@
 
 #include_next <mcuconf.h>
 
+// QMK used to mismatch I2C peripheral and driver numbers, this was corrected in 2023q1, now it
+// follows simple rules: I2C0 is I2CD0 and I2C1 is I2CD1
 #undef  RP_I2C_USE_I2C0
 #define RP_I2C_USE_I2C0 TRUE
-
 #undef  RP_I2C_USE_I2C1
 #define RP_I2C_USE_I2C1 FALSE

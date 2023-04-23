@@ -19,17 +19,18 @@
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
 
-// QMK numbers the I2C peripherals differently when it comes to defining the I2C_DRIVER
-// so add 1 (I2C0 is I2CD1 and I2C1 is I2CD2). This way, you can use any appropriate pair
-// of pins that are capable of I2C on the RP2040.
-#define I2C_DRIVER    I2CD1
+// QMK used to mismatch I2C peripheral and driver numbers, this was corrected in 2023q1, now it
+// follows simple rules: I2C0 is I2CD0 and I2C1 is I2CD1
+#define I2C_DRIVER    I2CD0
 #define I2C1_SDA_PIN  GP4
 #define I2C1_SCL_PIN  GP5         // Funciono con gp9 y gp13
 
 #ifdef OLED_ENABLE
+    #define OLED_IC             OLED_IC_SH1106
     #define OLED_DISPLAY_128X64
     #define OLED_BRIGHTNESS     128
-    #define OLED_IC             OLED_IC_SH1106
+    #define OLED_COLUMN_OFFSET  2    // Desaparece linea derecha, 1 no basta
+
 #endif
 
 /* disable action features
