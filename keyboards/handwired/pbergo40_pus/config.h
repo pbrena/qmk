@@ -5,6 +5,14 @@
 
 //#include "config_common.h"
 
+// This determines what is a tap and what is a hold in ms
+#define TAPPING_TERM 275    // 200 Default was to slow to give tap option
+// #define PERMISSIVE_HOLD  // This makes tap and hold keys work better for fast typists,
+
+// One Shot Keys Defs
+#define ONESHOT_TAP_TOGGLE  4 /* Tapping this number of times holds the key until tapped once again. */
+#define ONESHOT_TIMEOUT     5000  /* Time (in ms) before the one shot key is released */
+
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.
@@ -39,7 +47,5 @@
 //#define NO_ACTION_ONESHOT
 
 #define ENCODERS_PAD_A { GP12, GP10 }
-#define ENCODERS_PAD_B { GP11, GP9  }
-
-
+#define ENCODERS_PAD_B { GP11, GP9  }s
  */
