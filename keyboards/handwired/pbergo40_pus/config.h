@@ -6,12 +6,12 @@
 //#include "config_common.h"
 
 // This determines what is a tap and what is a hold in ms
-#define TAPPING_TERM 275    // 200 Default was to slow to give tap option
+#define TAPPING_TERM  700    // 200 Default was to slow to give tap option
 // #define PERMISSIVE_HOLD  // This makes tap and hold keys work better for fast typists,
 
 // One Shot Keys Defs
-#define ONESHOT_TAP_TOGGLE  4 /* Tapping this number of times holds the key until tapped once again. */
-#define ONESHOT_TIMEOUT     5000  /* Time (in ms) before the one shot key is released */
+#define ONESHOT_TAP_TOGGLE  3 /* Tapping this number of times holds the key until tapped once again. */
+#define ONESHOT_TIMEOUT     2000  /* Time (in ms) before the one shot key is released */
 
 /*
  * Feature disable options
