@@ -33,12 +33,25 @@
 #define I2C1_SDA_PIN  GP4
 #define I2C1_SCL_PIN  GP5         // Funciono con gp9 y gp13
 
+#ifdef ENCODER_ENABLE
+    #define ENCODERS_PAD_A { GP12, GP10 }
+    #define ENCODERS_PAD_B { GP11, GP9  }
+    #define ENCODER_RESOLUTIONS { 4, 2 }
+#endif
+
 #ifdef OLED_ENABLE
     #define OLED_IC             OLED_IC_SH1106
     #define OLED_DISPLAY_128X64
     #define OLED_BRIGHTNESS     128
     #define OLED_COLUMN_OFFSET  2    // Desaparece linea derecha, 1 no basta
+#endif
 
+#ifdef RGBLIGHT_ENABLE
+// Raspberry Pi RP2040 boards where WS2812 (RGB) support is offloaded to an dedicated PIO
+// Force the usage of a PI peripheral, by default the WS2812 implementation uses the PIO0
+    #define WS2812_PIO_USE_PIO1
+    #define RGB_DI_PIN GP6
+    #define RGBLED_NUM 1
 #endif
 
 /* disable action features
@@ -46,6 +59,4 @@
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
 
-#define ENCODERS_PAD_A { GP12, GP10 }
-#define ENCODERS_PAD_B { GP11, GP9  }s
  */

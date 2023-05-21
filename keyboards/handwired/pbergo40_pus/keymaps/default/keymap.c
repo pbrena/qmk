@@ -25,8 +25,9 @@ enum layers {
 // #define ADJUST   MO(_ADJUST)
 
 #define SPCnL1 LT(_NBERnSYM, KC_SPACE) /* Tap for space, hold for layer */
-#define ENTnL2 LT(_NAV,      KC_ENT)  /* Tap for enter, hold for layer */
-// #define K_BSPFN LT(_SYMB, KC_BSPC)  /* Tap for backspace, hold for layer */
+#define TABnL2 LT(_NAV,      KC_TAB)  /* Tap for enter, hold for layer */
+// #define ENTnL2  LT(_NAV,     KC_ENT)  /* Tap for enter, hold for layer */
+// #define K_BSPFN LT(_SYMB,    KC_BSPC)  /* Tap for backspace, hold for layer */
 // #define W_ENTLW LT(_W_LOWER, KC_ENT)  /* Tap for enter, hold for layer */
 
 
@@ -44,8 +45,8 @@ enum layers {
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
 // | MUTE  |   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
 // `---------------------+------+------+------+------. .------+------+------+------+------+------+--------'
-//                              | CTRL | OPTN | CMND | | TAB  | ENTR | SPAC |
-//                              | CTRL | OPTN | CMND | | TAB  | LYR2 | LYR1 |
+//                              | CTRL | OPTN | CMND | | ENTR | TAB  | SPAC |
+//                              | CTRL | OPTN | CMND | | ENTR | LYR2 | LYR1 |
 //                              `--------------------' `--------------------'
 //
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -54,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,        KC_Q, KC_W, KC_E, KC_R, KC_T,                   KC_Y, KC_U, KC_I,    KC_O,   KC_P,          KC_NO,
   TMPSHT,       KC_A, KC_S, KC_D, KC_F, KC_G,                   KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,       KC_BSPC,
   TMPSHT,       KC_Z, KC_X, KC_C, KC_V, KC_B,                   KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,       KC_MUTE,
-                            KC_LCTL, KC_LOPT, KC_LCMD,  KC_TAB, ENTnL2,  SPCnL1
+                            KC_LCTL, KC_LOPT, KC_LCMD,  KC_ENT, TABnL2,  SPCnL1
   ),
 // Base Layer: NBERnSYM
 //         ,----------------------------------.               ,----------------------------------.
@@ -93,13 +94,50 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef ENCODER_ENABLE
     bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) { /* First encoder */
+        if (clockwise) {
+            tap_code_delay(KC_VOLU, 10);
+        } else {
+            tap_code_delay(KC_VOLD, 10);
+        }
+        /*
+        if (clockwise) {
+            tap_code_delay(KC_VOLU, 10);
+        } else {
+            tap_code_delay(KC_VOLD, 10);
+        }
         if (clockwise) {
             tap_code(KC_KB_VOLUME_UP);
         } else {
             tap_code(KC_KB_VOLUME_DOWN);
         }
-        return false;
+        if (clockwise) {
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
+        }
+        */
+    } else if (index == 1) { /* Second encoder */
+        if (clockwise) {
+            tap_code_delay(KC_VOLU, 10);
+        } else {
+            tap_code_delay(KC_VOLD, 10);
+        }
+        /* KC_VOLU
+        if (clockwise) {
+            tap_code_delay(KC_VOLU, 10);
+        } else {
+            tap_code_delay(KC_VOLD, 10);
+        }
+        if (clockwise) {
+            rgb_matrix_increase_hue();
+        } else {
+            rgb_matrix_decrease_hue();
+        }
+        */
     }
+    return false;
+}
 #endif
 
 #ifdef OLED_ENABLE
