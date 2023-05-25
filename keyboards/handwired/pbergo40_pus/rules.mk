@@ -5,6 +5,7 @@ BOARD = GENERIC_RP_RP2040
 
 # Build Options
 #
+TAP_DANCE_ENABLE    = no
 BACKLIGHT_ENABLE    = no       # Enable keyboard backlight functionality
 RGBLIGHT_ENABLE     = yes      # Enable keyboard RGB underglow
 AUDIO_ENABLE        = no       # Audio output

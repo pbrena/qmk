@@ -49,9 +49,12 @@
 #ifdef RGBLIGHT_ENABLE
 // Raspberry Pi RP2040 boards where WS2812 (RGB) support is offloaded to an dedicated PIO
 // Force the usage of a PI peripheral, by default the WS2812 implementation uses the PIO0
-    #define WS2812_PIO_USE_PIO1
-    #define RGB_DI_PIN GP6
+    #define WS2812_PIO_USE_PIO0
+    #define RGB_DI_PIN GP0
     #define RGBLED_NUM 1
+    #define WS2812_TRST_US 280 // TRST period. The default setting is 280µs
+    #define RGBLIGHT_LAYERS
+    #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
 #endif
 
 /* disable action features

@@ -4,9 +4,13 @@
 #include QMK_KEYBOARD_H
 #include "pbergo40_pus.h"
 
-void keyboard_post_init_user(void) {
-    debug_enable   = true;
-    debug_matrix   = true;
-    debug_keyboard = true;
-    debug_mouse    = true;
-}
+// void keyboard_post_init_user(void) {
+//     debug_enable   = true;
+//     debug_matrix   = true;
+//     debug_keyboard = true;
+//     debug_mouse    = true;
+//     #ifdef RGBLIGHT_ENABLE
+//     // Enable the LED layers
+//     rgblight_layers = my_rgb_layers;
+//     #endif
+// }

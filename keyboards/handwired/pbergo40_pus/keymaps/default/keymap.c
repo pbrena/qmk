@@ -1,11 +1,16 @@
 // Copyright 2023 Pablo Brena
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+//****************************************************************//
+//******************* General Declarations ***********************//
+//****************************************************************//
 #include QMK_KEYBOARD_H
 #include <stdio.h>
+// #include "keymap_spanish.h"
 
-char wpm_str[10];
-
+//****************************************************************//
+//*******************        LAYERS       ************************//
+//****************************************************************//
 enum layers {
     _QWERTY = 0,
     _NBERnSYM,
@@ -15,15 +20,14 @@ enum layers {
     _ADJUST,
 };
 
-// Aliases for readability
-#define QWERTY   DF(_QWERTY)
-
 // #define NUM      MO(_NUMnSYM)
 // #define SYM      MO(_SYM)
 // #define NAV      MO(_NAV)
 // #define FKEYS    MO(_FUNCTION)
 // #define ADJUST   MO(_ADJUST)
 
+// Aliases for readability
+#define QWERTY DF(_QWERTY)
 #define SPCnL1 LT(_NBERnSYM, KC_SPACE) /* Tap for space, hold for layer */
 #define TABnL2 LT(_NAV,      KC_TAB)  /* Tap for enter, hold for layer */
 // #define ENTnL2  LT(_NAV,     KC_ENT)  /* Tap for enter, hold for layer */
@@ -38,19 +42,20 @@ enum layers {
 #define TMPSHT   OSM(MOD_LSFT)
 
 // Base Layer: QWERTY
-//         ,----------------------------------.               ,----------------------------------.
-//         |   Q  |   W  |   E  |   R  |   T  |               |   Y  |   U  |   I  |   O  |   P  |
+// ,-------. <--- Encoder1 Key                                               Encoder2 Key  --->  ,--------.
+// |  MUTE +----------------------------------.               ,----------------------------------+  MUTE  |
+// `-------|   Q  |   W  |   E  |   R  |   T  |               |   Y  |   U  |   I  |   O  |   P  |--------'
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
 // | tmpSHF|   A  |   S  |   D  |   F  |   G  |               |   H  |   J  |   K  |   L  |  ; : | BAKSPCE|
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
 // | MUTE  |   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
-// `---------------------+------+------+------+------. .------+------+------+------+------+------+--------'
+// `----------------------------+------+------+------. .------+------+------+--------------------+--------'
 //                              | CTRL | OPTN | CMND | | ENTR | TAB  | SPAC |
 //                              | CTRL | OPTN | CMND | | ENTR | LYR2 | LYR1 |
 //                              `--------------------' `--------------------'
 //
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-// keys KC_NO not wired (2)
+// keys KC_NO not wired (2)      TD(#tapdance)
 [_QWERTY] = LAYOUT(
   KC_NO,        KC_Q, KC_W, KC_E, KC_R, KC_T,                   KC_Y, KC_U, KC_I,    KC_O,   KC_P,          KC_NO,
   TMPSHT,       KC_A, KC_S, KC_D, KC_F, KC_G,                   KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,       KC_BSPC,
@@ -58,13 +63,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             KC_LCTL, KC_LOPT, KC_LCMD,  KC_ENT, TABnL2,  SPCnL1
   ),
 // Base Layer: NBERnSYM
-//         ,----------------------------------.               ,----------------------------------.
-//         |  ! ` |  @   |  #   |  $   |  %   |               |   ^  |  &   |  *   |  (   |  )   |
+//
+// ,-------. <--- Encoder1 Key                                               Encoder2 Key  --->  ,--------.
+// |  MUTE +----------------------------------.               ,----------------------------------+  MUTE  |
+// `-------|  ! ` |  @   |  #   |  $   |  %   |               |   ^  |  &   |  *   |  (   |  )   |--------'
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
 // | tmpSHF|   1  |   2  |   3  |   4  |   5  |               |   6  |  7   |  8   |  9   |  0   | BAKSPCE|
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
 // | MUTE  | BRIGD| BRIGU| VOLD | VOLU |      |               |  - _ |  = + | [ {  | ] }  | \ |  |   MUTE |
-// `---------------------+------+------+------+------. .------+------+------+------+------+------+--------'
+// `----------------------------+------+------+------. .------+------+------+--------------------+--------'
 //                              |      |      |      | |      |      |(hold)|
 //                              `--------------------' `--------------------'
 [_NBERnSYM]    = LAYOUT(
@@ -74,13 +81,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                 _______, _______, _______,  _______, _______, _______
   ),
 // Base Layer: NBERnSYM
-//         ,----------------------------------.               ,----------------------------------.
-//         |  F1  |  F2  |  F3  |  F4  |  F5  |               | HOME | PGUP |  UP  |  `   |  d   |
+// ,-------. <--- Encoder1 Key                                               Encoder2 Key  --->  ,--------.
+// |  MUTE +----------------------------------.               ,----------------------------------+  MUTE  |
+// `-------|  F1  |  F2  |  F3  |  F4  |  F5  |               | HOME | PGUP |  UP  |  `   |  d   |--------'
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
 // | tmpSHF|  F6  |  F7  |  F8  |  F9  |  F10 |               | ESC  |  LFT |  DWN |  RGT | FDEL | BAKSPCE|
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
 // | MUTE  |  F11 |  F12 |  F13 | MISSI| LAUNC|               | END  | PGDN | Ejct |  <-  |  ->  |   MUTE |
-// `---------------------+------+------+------+------. .------+------+------+------+------+------+--------'
+// `----------------------------+------+------+------. .------+------+------+--------------------+--------'
 //                              |      |      |      | |      |(hold)|      |
 //                              `--------------------' `--------------------'
 [_NAV]    = LAYOUT(
@@ -90,7 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                              _______, _______, _______,   _______, _______, _______
   )
 };
-
+//****************************************************************//
+//*******************       ENCODERS      ************************//
+//****************************************************************//
 
 #ifdef ENCODER_ENABLE
     bool encoder_update_user(uint8_t index, bool clockwise) {
@@ -140,8 +150,152 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 }
 #endif
 
+//****************************************************************//
+//*******************      Tap Logic      ************************//
+//****************************************************************//
+
+#ifdef TAP_DANCE_ENABLE
+// // Tap Dance Declarations
+// enum {
+//     A = 0,
+//     E,
+//     I,
+//     O,
+//     U,
+//     N,
+//     // ..., the rest of your tap dances
+// };
+// uint16_t letras[6] = { KC_A, KC_E, KC_I, KC_O, KC_U, KC_N };
+
+// void acentua(tap_dance_state_t *state, uint16_t keycode) {
+//     if (2 <= state->count ) {
+//         char letra = letras[TD_INDEX(keycode)];
+//         switch(keycode) {
+//             case A ... U:
+//                 tap_code(KC_QUOT);
+//                 tap_code(letra);
+//         }
+//         reset_tap_dance(state);
+//     }
+// }
+
+// uint16_t letras[6] = { KC_A, KC_E, KC_I, KC_O, KC_U, KC_N };
+
+// void acentua(tap_dance_state_t *state, uint16_t keycode) {
+//     if (2 <= state->count ) {
+//         char letra = letras[TD_INDEX(keycode)];
+//         switch(keycode) {
+//             case A ... U:
+//                 tap_code(KC_QUOT);
+//                 tap_code(letra);
+//         }
+//         reset_tap_dance(state);
+//     }
+// }
+
+// // Tap Dance Definitions         un solo caracter   KC_SCLN // Ñ
+// tap_dance_action_t tap_dance_actions[] = {
+//     [A] = ACTION_TAP_DANCE_FN(acentua),
+//     [E] = ACTION_TAP_DANCE_FN(acentua),
+//     [I] = ACTION_TAP_DANCE_FN(acentua),
+//     [O] = ACTION_TAP_DANCE_FN(acentua),
+//     [U] = ACTION_TAP_DANCE_FN(acentua),
+//     [N] = ACTION_TAP_DANCE_DOUBLE(KC_N, KC_SCLN),
+// };
+//     // simple tap dance
+//     [TD_A] = ACTION_TAP_DANCE_DOUBLE(KC_A, KC_YYYY), // replace with your keycodes. BASIC codes only, no custom codes.
+//     // complex tap dance function (to specify what happens when key is pressed 3+ times, for example). See full docs for how to define
+//     // simple tap dance
+//     [TD_A] = ACTION_TAP_DANCE_DOUBLE(KC_A, KC_YYYY), // replace with your keycodes. BASIC codes only, no custom codes.
+//     // complex tap dance function (to specify what happens when key is pressed 3+ times, for example). See full docs for how to define
+#endif
+
+//****************************************************************//
+//*******************       MACROS        ************************//
+//****************************************************************//
+
+// enum custom_keycodes {
+//     aacnt = SAFE_RANGE,
+// };
+
+// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+//     if ( aacnt = keycode ) {
+//         if (record->event.pressed) {
+//             // when keycode aacnt is needed
+//             SEND_STRING(SS_TAP(KC_LBRC)"a");
+//         } else {
+//             // when keycode QMKBEST is released
+//         }
+//     }
+//             // } else { }
+//     return true;
+// };
+
+//****************************************************************//
+//*******************   RGB LED Logic     ************************//
+//****************************************************************//
+
+#ifdef RGBLIGHT_ENABLE
+// when keyboard CAPS active
+const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 1, HSV_BLUE}       // Light 4 LEDs, starting with LED 6
+);
+// when keyboard layer _QWERTY is active
+const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 1, HSV_CYAN}
+);
+// when keyboard layer _NBERnSYM is active
+const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 1, HSV_RED}
+);
+// when keyboard layer _NAV is active
+const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 1, HSV_PURPLE}
+);
+// Define the array of layers for RGB LED. Later layers take precedence
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_capslock_layer,
+    my_layer1_layer,    // Overrides other layers
+    my_layer2_layer,    // Overrides other layers
+    my_layer3_layer     // Overrides other layers
+);
+// Light LEDs 11 & 12 in purple when keyboard layer 2 is active
+// const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {11, 2, HSV_PURPLE}
+// );
+
+// en keyboard.c
+// void keyboard_post_init_user(void) {
+//     // Enable the LED layers
+//     rgblight_layers = my_rgb_layers;
+// }
+
+bool led_update_user(led_t led_state) {
+    rgblight_set_layer_state(0, led_state.caps_lock);
+    return true;
+}
+
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(1, layer_state_cmp(state, _QWERTY));
+    return state;
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
+    rgblight_set_layer_state(3, layer_state_cmp(state, _NAV));
+    return state;
+}
+#endif
+
+//****************************************************************//
+//*******************      OLED Logic     ************************//
+//****************************************************************//
+
 #ifdef OLED_ENABLE
 #   include "paimagenes.h"
+
+    char wpm_str[10];
+
     static void render_logo(void) {
 
         oled_write_P(qmk_logo, false);   //  (const char *data, bool invert);
@@ -223,3 +377,18 @@ bool oled_task_user(void) {
     return false;
 }
 #endif
+
+//****************************************************************//
+//*******************      PostINIT       ************************//
+//****************************************************************//
+
+void keyboard_post_init_user(void) {
+    debug_enable   = true;
+    debug_matrix   = true;
+    debug_keyboard = true;
+    debug_mouse    = true;
+    #ifdef RGBLIGHT_ENABLE
+        // Enable the LED layers
+        rgblight_layers = my_rgb_layers;
+    #endif
+}

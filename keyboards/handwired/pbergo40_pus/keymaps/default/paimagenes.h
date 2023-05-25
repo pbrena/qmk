@@ -1,9 +1,12 @@
 // Copyright 2023 Pablo Brena
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-// ***********************************************************************************************
-// ************************        I M A G E     C O N S T A N T S         ***********************
-// ***********************************************************************************************
+// **********************************************************************
+// ****************** I M A G E   C O N S T A N T S *********************
+// **********************************************************************
+
+// Isolated from logic for better readability but..
+// included "paimagenes.h" in keymap.c <-----> #ifdef OLED_ENABLE
 
 // OLED IMAGE STUFF STARTS HERE
 // based on https://github.com/qmk/qmk_firmware/blob/master/keyboards/kyria/keymaps/j-inc/keymap.c
