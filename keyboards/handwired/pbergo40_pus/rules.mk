@@ -15,8 +15,8 @@ OLED_DRIVER         = SSD1306  # also used by SH1106 OLEDs
 OLED_DISPLAY_128X64 = yes
 OPT_DEFS           += -DHAL_USE_I2C=TRUE
 WPM_ENABLE          = yes	   # for bongo cat animation
-MOUSEKEY_ENABLE     = no
-EXTRAKEY_ENABLE     = no 	   # Audio and system control
+MOUSEKEY_ENABLE     = yes
+EXTRAKEY_ENABLE     = yes 	   # Audio and system control
 XTRAFLAGS          += -flto
 RGBLIGHT_ENABLE     = yes      # Enable keyboard RGB underglow
 WS2812_DRIVER       = vendor

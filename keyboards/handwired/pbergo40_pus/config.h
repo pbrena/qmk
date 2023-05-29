@@ -7,7 +7,6 @@
 
 // This determines what a tap (vs hold) is  in ms
 #define TAPPING_TERM             300  // 200 Default was to slow to give tap option
-#define DEBOUNCE                 5    // Reduces unintended double-presses,  0 if debouncing is not needed
 #define HOLD_ON_OTHER_KEY_PRESS       // keeps old mod-taps behavior vs IGNORE_MOD_TAP_INTERRUPT
 //#define PERMISSIVE_HOLD             // This makes tap and hold keys work better for fast typists
 //#define TAPPING_TERM_PER_KEY        // For more granular control of this feature
