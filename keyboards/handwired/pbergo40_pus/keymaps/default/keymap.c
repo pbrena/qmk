@@ -337,85 +337,85 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //*******************   RGB LED Logic     ************************//
 //****************************************************************//
 
-// #ifdef RGBLIGHT_ENABLE
+#ifdef RGBLIGHT_ENABLE
 
-// when keyboard CAPS active
-const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 1, HSV_CYAN}       // Light 4 LEDs, starting with LED 12
-);
-// when keyboard layer _QWERTY is active
-const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 1, HSV_RED}
-);
-// when keyboard layer _NBERnSYM is active
-const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 1, HSV_PURPLE}
-);
-// when keyboard layer _NAV is active
-const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 1, HSV_GREEN}
-);
-// Now define the array of layers. Later layers take precedence
-const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_capslock_layer,    // Overrides caps lock layer
-    my_layer1_layer,      // Overrides other layers
-    my_layer2_layer,
-    my_layer3_layer
-);
+// NO JALA PROC STANDAR PROBABLEMENTE LOS LLAMADOS TIPO:
+//  ---> rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
 
-// The state is the bitmask of the active layers
-// Function	            Description & Aliases
-
-// layer_state_is(layer)	Checks globally if layer enabled
-// IS_LAYER_ON(layer), IS_LAYER_OFF(layer)
-// layer_state_cmp(state,layer)	Checks state if layer is enabled
-// IS_LAYER_ON_STATE(state,layer), IS_LAYER_OFF_STATE(state,layer)
-
-// rgblight_set_layer_state(i, bool)	Enable/disable lighting layer i if bool
-
-// led_update_user(led_state) called when LED indicators (NumLck
-// CpsLck, etc) change, return true will allow pass control, false wont
-bool led_update_user(led_t led_state) {
-    rgblight_setrgb (0x7A,  0x00, 0xFF);
-    return true;
-}
-
-// Callback for default layer functions, for users, on keyboard initialization.
-// sets initial state (asumes _QUERTY)
-layer_state_t default_layer_state_set_user(layer_state_t state) {
-    rgblight_setrgb (0x00,  0xFF, 0xFF);
-    return state;
-}
-
+// // when keyboard CAPS active
+// const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_BLUE}       // Light 4 LEDs, starting with LED 12
+// );
+// // when keyboard layer _QWERTY is active
+// const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_WHITE}
+// );
+// // when keyboard layer _NBERnSYM is active
+// const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_CYAN}
+// );
+// // when keyboard layer _NAV is active
+// const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_SPRINGGREEN}
+// );
+// // Now define the array of layers. Later layers take precedence
+// const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+//     my_capslock_layer,    // Overrides caps lock layer
+//     my_layer1_layer,      // Overrides other layers
+//     my_layer2_layer,
+//     my_layer3_layer
+// );
 // layer_state_t layer_state_set_user(layer_state_t state) {
 //     rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
 //     rgblight_set_layer_state(3, layer_state_cmp(state, _NAV));
 //     return state;
 // }
 
+// PROCEDIMIENTO VIEJO:
+
+// The state is the bitmask of the active layers
+// Function	            Description & Aliases
+// layer_state_is(layer)	Checks globally if layer enabled
+// IS_LAYER_ON(layer), IS_LAYER_OFF(layer)
+// layer_state_cmp(state,layer)	Checks state if layer is enabled
+// IS_LAYER_ON_STATE(state,layer), IS_LAYER_OFF_STATE(state,layer)
+// rgblight_set_layer_state(i, bool)	Enable/disable lighting layer i if bool
+
+// led_update_user(led_state) called when LED indicators (NumLck
+// CpsLck, etc) change, return true will allow pass control, false wont
+bool led_update_user(led_t led_state) {
+    if (led_state.caps_lock)
+        rgblight_sethsv_noeeprom(HSV_BLUE);
+    // rgblight_setrgb (0x7A,  0x00, 0xFF);
+    return true;
+}
+// Callback for default layer functions, for users, on keyboard initialization.
+// sets initial state (asumes _QWERTY)
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    rgblight_sethsv_noeeprom(HSV_WHITE);
+    // rgblight_setrgb (0x00,  0xFF, 0xFF);
+    return state;
+}
 // callback function called every time the layer changes, passes the layer state
 // to the function and can be read or modified
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
     case _NBERnSYM:
-        // rgblight_set_layer_state(2, 1);
-        rgblight_setrgb (0xFF,  0x00, 0x00);
+        rgblight_sethsv_noeeprom(HSV_CYAN);
+        // rgblight_setrgb (0xFF,  0x00, 0x00);
         break;
     case _NAV:
-        // rgblight_set_layer_state(3, false);
-        rgblight_setrgb (0x00,  0xFF, 0x00);
+        rgblight_sethsv_noeeprom(HSV_SPRINGGREEN);
+        // rgblight_setrgb (0x00,  0xFF, 0x00);
         break;
-//     case _ADJUST:
-//         rgblight_setrgb (0x7A,  0x00, 0xFF);
-//         break;
-    default: //  for any other layers (asumes _QUERTY)
-        // rgblight_set_layer_state(1, 1);
-        rgblight_setrgb (0x00,  0xFF, 0xFF);
+    default: //  for any other layers (asumes _QWERTY)
+        rgblight_sethsv_noeeprom(HSV_WHITE);
+        // rgblight_setrgb (0x00,  0xFF, 0xFF);
         break;
     }
   return state; // returns layer state unmodified
 }
-// #endif
+#endif
 
 //****************************************************************//
 //*******************      OLED Logic     ************************//
@@ -434,7 +434,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // Code for pixel art, contains:
     // 5 idle frames, 1 prep frame, and 2 tap frames
     static void render_anim(void) {
-
          // assumes 1 frame prep stage
         void animation_phase(void) {
             if (get_current_wpm() <= IDLE_SPEED) {
@@ -460,7 +459,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         anim_sleep = timer_read32();
     } else {
         if (timer_elapsed32(anim_sleep) > OLED_TIMEOUT)
-           { oled_off();}
+           { oled_off(); }
         else {
             if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
                 anim_timer = timer_read32();
@@ -472,6 +471,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 // 8heighx6widh pix char spacing, so 8x21 on 64x128 screen, anything more will overflow back to the top
 bool oled_task_user(void) {
+
     oled_set_cursor(0, 0);      // sets cursor to (row, column) using charactar spacing
     render_anim();              // picture size 5x21 chars
 
@@ -526,33 +526,19 @@ bool oled_task_user(void) {
 //****************************************************************//
 //*******************      PostINIT       ************************//
 //****************************************************************//
+
 void keyboard_post_init_user(void) {
     debug_enable   = true;
     debug_matrix   = true;
     debug_keyboard = true;
     debug_mouse    = true;
-    rgblight_layers = my_rgb_layers;
-    // #ifdef RGBLIGHT_ENABLE
-    // #endif
-    // Enable the LED layers
+    #ifdef RGBLIGHT_ENABLE
+        rgblight_enable_noeeprom();
+        rgblight_sethsv_noeeprom(HSV_CORAL);  // INITIAL STATE
+        //rgblight_layers = my_rgb_layers;    // NOT WORKING: standart layers
+        //rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    #endif
 }
-
-
-
-// void keyboard_post_init_user(void) {
-//     // debug_enable   = true;
-//     // debug_matrix   = true;
-//     // debug_keyboard = true;
-//     // debug_mouse    = true;
-//     // #ifdef RGBLIGHT_ENABLE
-//      // Initialize RGB to static black
-//     // rgblight_enable_noeeprom();
-//     // rgblight_sethsv_noeeprom(HSV_RED);
-//     // rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-//     // Enable the LED layers
-//     rgblight_layers = my_rgb_layers;
-//     // #endif
-// }
 
 /*
 LSFT(kc) - applies left Shift to kc (keycode) - S(kc) is an alias
@@ -628,6 +614,4 @@ float tone_startup[][2] = {
     E__NOTE(_A6 ),
     M__NOTE(_CS7, 20)
 };
-
 */
-

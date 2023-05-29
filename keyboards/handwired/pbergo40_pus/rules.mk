@@ -1,7 +1,7 @@
-MCU = RP2040
+MCU        = RP2040
 BOOTLOADER = rp2040
+BOARD      = GENERIC_RP_RP2040
 # Defaults to Sparkfunk's ProMicro so GENERIC_RP_RP2040 used for Raspberrys
-BOARD = GENERIC_RP_RP2040
 
 # Build Options
 #
