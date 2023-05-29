@@ -18,7 +18,7 @@ WPM_ENABLE          = yes	   # for bongo cat animation
 MOUSEKEY_ENABLE     = no
 EXTRAKEY_ENABLE     = no 	   # Audio and system control
 XTRAFLAGS          += -flto
-
-# Raspberry Pi RP2040 boards where WS2812 (RGB) support is offloaded to an dedicated PIO
 RGBLIGHT_ENABLE     = yes      # Enable keyboard RGB underglow
 WS2812_DRIVER       = vendor
+
+# Raspberry Pi RP2040 boards where WS2812 (RGB) support is offloaded to an dedicated PIO

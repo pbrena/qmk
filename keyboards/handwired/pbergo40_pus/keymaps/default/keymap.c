@@ -69,7 +69,8 @@ uint8_t determin_taptype(tap_dance_state_t *state) {
 // General Proc will modify the KC corresponding to the index
 // and according to Tap Dance Type registered
 void commonproc(uint8_t index, tap_dance_state_t *state) {
-    // Warning: PC/Mac OS should use ES keymap to correctlt render tildes
+    // Warning: PC/Mac OS should use ES keymap to correctly render tildes
+    // i only could make it work with lowercases
     // first determine variables:
     uint16_t typedkey   = KC4idx[index];
     uint8_t  TDtype     = determin_taptype(state);
@@ -336,15 +337,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //*******************   RGB LED Logic     ************************//
 //****************************************************************//
 
-#ifdef RGBLIGHT_ENABLE
+// #ifdef RGBLIGHT_ENABLE
 
 // when keyboard CAPS active
 const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 1, HSV_RED}       // Light 4 LEDs, starting with LED 12
+    {1, 1, HSV_CYAN}       // Light 4 LEDs, starting with LED 12
 );
 // when keyboard layer _QWERTY is active
 const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 1, HSV_CYAN}
+    {1, 1, HSV_RED}
 );
 // when keyboard layer _NBERnSYM is active
 const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -356,29 +357,65 @@ const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 );
 // Now define the array of layers. Later layers take precedence
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    my_capslock_layer,
-    my_layer1_layer,    // Overrides caps lock layer
-    my_layer2_layer,    // Overrides other layers
-    my_layer3_layer     // Overrides other layers
+    my_capslock_layer,    // Overrides caps lock layer
+    my_layer1_layer,      // Overrides other layers
+    my_layer2_layer,
+    my_layer3_layer
 );
 
+// The state is the bitmask of the active layers
+// Function	            Description & Aliases
+
+// layer_state_is(layer)	Checks globally if layer enabled
+// IS_LAYER_ON(layer), IS_LAYER_OFF(layer)
+// layer_state_cmp(state,layer)	Checks state if layer is enabled
+// IS_LAYER_ON_STATE(state,layer), IS_LAYER_OFF_STATE(state,layer)
+
+// rgblight_set_layer_state(i, bool)	Enable/disable lighting layer i if bool
+
+// led_update_user(led_state) called when LED indicators (NumLck
+// CpsLck, etc) change, return true will allow pass control, false wont
 bool led_update_user(led_t led_state) {
-    rgblight_set_layer_state(0, led_state.caps_lock);
+    rgblight_setrgb (0x7A,  0x00, 0xFF);
     return true;
 }
 
+// Callback for default layer functions, for users, on keyboard initialization.
+// sets initial state (asumes _QUERTY)
 layer_state_t default_layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(1, layer_state_cmp(state,  _QWERTY));
+    rgblight_setrgb (0x00,  0xFF, 0xFF);
     return state;
 }
 
+// layer_state_t layer_state_set_user(layer_state_t state) {
+//     rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
+//     rgblight_set_layer_state(3, layer_state_cmp(state, _NAV));
+//     return state;
+// }
+
+// callback function called every time the layer changes, passes the layer state
+// to the function and can be read or modified
 layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
-    rgblight_set_layer_state(3, layer_state_cmp(state, _NAV));
-    return state;
+    switch (get_highest_layer(state)) {
+    case _NBERnSYM:
+        // rgblight_set_layer_state(2, 1);
+        rgblight_setrgb (0xFF,  0x00, 0x00);
+        break;
+    case _NAV:
+        // rgblight_set_layer_state(3, false);
+        rgblight_setrgb (0x00,  0xFF, 0x00);
+        break;
+//     case _ADJUST:
+//         rgblight_setrgb (0x7A,  0x00, 0xFF);
+//         break;
+    default: //  for any other layers (asumes _QUERTY)
+        // rgblight_set_layer_state(1, 1);
+        rgblight_setrgb (0x00,  0xFF, 0xFF);
+        break;
+    }
+  return state; // returns layer state unmodified
 }
-
-#endif
+// #endif
 
 //****************************************************************//
 //*******************      OLED Logic     ************************//
@@ -489,21 +526,33 @@ bool oled_task_user(void) {
 //****************************************************************//
 //*******************      PostINIT       ************************//
 //****************************************************************//
-
 void keyboard_post_init_user(void) {
-    // debug_enable   = true;
-    // debug_matrix   = true;
-    // debug_keyboard = true;
-    // debug_mouse    = true;
-    // #ifdef RGBLIGHT_ENABLE
-     // Initialize RGB to static black
-    rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(HSV_WHITE);
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    // Enable the LED layers
+    debug_enable   = true;
+    debug_matrix   = true;
+    debug_keyboard = true;
+    debug_mouse    = true;
     rgblight_layers = my_rgb_layers;
+    // #ifdef RGBLIGHT_ENABLE
     // #endif
+    // Enable the LED layers
 }
+
+
+
+// void keyboard_post_init_user(void) {
+//     // debug_enable   = true;
+//     // debug_matrix   = true;
+//     // debug_keyboard = true;
+//     // debug_mouse    = true;
+//     // #ifdef RGBLIGHT_ENABLE
+//      // Initialize RGB to static black
+//     // rgblight_enable_noeeprom();
+//     // rgblight_sethsv_noeeprom(HSV_RED);
+//     // rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+//     // Enable the LED layers
+//     rgblight_layers = my_rgb_layers;
+//     // #endif
+// }
 
 /*
 LSFT(kc) - applies left Shift to kc (keycode) - S(kc) is an alias

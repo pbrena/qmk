@@ -9,8 +9,7 @@
 //     debug_matrix   = true;
 //     debug_keyboard = true;
 //     debug_mouse    = true;
-//     #ifdef RGBLIGHT_ENABLE
+//     rgblight_layers = my_rgb_layers;    // #endif
+//     // #ifdef RGBLIGHT_ENABLE
 //     // Enable the LED layers
-//     rgblight_layers = my_rgb_layers;
-//     #endif
 // }
