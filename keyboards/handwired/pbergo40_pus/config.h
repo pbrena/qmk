@@ -6,7 +6,7 @@
 //#include "config_common.h"
 
 // This determines what a tap (vs hold) is  in ms
-#define TAPPING_TERM             300  // 200 Default was to slow to give tap option
+#define TAPPING_TERM             250  // 200 Default was to slow to give tap option
 #define HOLD_ON_OTHER_KEY_PRESS       // keeps old mod-taps behavior vs IGNORE_MOD_TAP_INTERRUPT
 //#define PERMISSIVE_HOLD             // This makes tap and hold keys work better for fast typists
 //#define TAPPING_TERM_PER_KEY        // For more granular control of this feature
@@ -45,6 +45,35 @@
 #define I2C1_SDA_PIN            GP4
 #define I2C1_SCL_PIN            GP5         // Funciono con gp9 y gp13
 
+#define PICO_AUDIO_I2S_DATA_PIN       GP0
+#define PICO_AUDIO_I2S_CLOCK_PIN_BASE GP1
+#define I2S_MODE_MASTER               1
+
+#ifdef AUDIO_ENABLE
+    // #define AUDIO_PIN                              GP1
+    // #define AUDIO_PWM_DRIVER                       PWMD0
+    // #define AUDIO_PWM_CHANNEL                      RP2040_PWM_CHANNEL_A
+    // #define AUDIO_ENABLE_TONE_MULTIPLEXING
+    // #define AUDIO_TONE_MULTIPLEXING_RATE_DEFAULT   10
+
+    #define AUDIO_PIN          GP1
+    #define AUDIO_PWM_DRIVER   PWMD0
+    #define AUDIO_PWM_CHANNEL  RP2040_PWM_CHANNEL_B    // gp0 PWM0 A    gp1 PWM0 B
+    #define AUDIO_ENABLE_TONE_MULTIPLEXING
+    #define AUDIO_TONE_MULTIPLEXING_RATE_DEFAULT 10
+    #define AUDIO_CLICKY
+    #define NO_MUSIC_MODE
+    // #define SPEAKER_SHUTDOWN   GP2
+
+    // #define MUSIC_MAP
+    // #define MUSIC_MASK keycode != KC_NO
+
+
+    //#define AUDIO_CLICKY_FREQ_DEFAULT            440
+    //#define STARTUP_SONG SONG(STARTUP_SOUND)
+    //#define AUDIO_PWM_PAL_MODE  42
+#endif
+
 #ifdef ENCODER_ENABLE
     #define ENCODERS_PAD_A      { GP12, GP10 }
     #define ENCODERS_PAD_B      { GP11, GP9  }
@@ -71,12 +100,13 @@
     #define RGBLIGHT_MAX_LAYERS        4
     #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF  // If defined, lighting layers shown even if RGB is off
     #define RGBLIGHT_LAYERS_RETAIN_VAL
-    #define RGBLIGHT_LIMIT_VAL         150
-    #define RGBLIGHT_SLEEP                    // RGB lighting switched off when  host goes to sleep
+    #define RGBLIGHT_LIMIT_VAL         100    // maximum brightness level
+    #define RGBLIGHT_DEFAULT_VAL       100    // default brightness level upon clearing the EEPROM
+    #define RGBLIGHT_SLEEP                    // RGB lighting switched off when host goes to sleep
     #define RGBLIGHT_EFFECT_BREATHING
     #define RGBLIGHT_DEFAULT_MODE      RGBLIGHT_MODE_BREATHING
     #define WS2812_DI_PIN              GP0
-    #define WS2812_PIO_USE_PIO0
+    #define WS2812_PIO_USE_PIO1               // PIO0 and PIO1 can connect to all GPIO pins
     #define WS2812_PORTREG             PORTP
     #define WS2812_DDRREG              DDRP
     #define WS2812_TRST_US             280  // TRST period. The default setting is 280µs

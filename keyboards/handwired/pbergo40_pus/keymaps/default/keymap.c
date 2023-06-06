@@ -6,7 +6,7 @@
 //****************************************************************//
 #include QMK_KEYBOARD_H
 #include <stdio.h>
-// #include "keymap_us_international.h"
+#include "TclzoPCMuint8.h"
 
 //****************************************************************//
 //*******************      Tap Dance      ************************//
@@ -165,6 +165,7 @@ tap_dance_action_t tap_dance_actions[] = {
 //****************************************************************//
 enum layers {
     _QWERTY = 0,
+    _QWespagn,
     _NBERnSYM,
     _NAV,
     _SYM,
@@ -180,6 +181,7 @@ enum layers {
 
 // Aliases for readability
 #define QWERTY DF(_QWERTY)
+#define espagn TG(_QWespagn)
 #define onlTIL LSFT(KC_GRV)
 #define SPCnL1 LT(_NBERnSYM, KC_SPACE) /* Tap for space, hold for layer */
 #define TABnL2 LT(_NAV,      KC_TAB)  /* Tap for enter, hold for layer */
@@ -205,19 +207,38 @@ enum layers {
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
 // | tmpSHF|   A  |   S  |   D  |   F  |   G  |               |   H  |   J  |   K  |   L  |  ; : | BAKSPCE|
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
-// | MUTE  |   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
+// | espagn|   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
 //                              | CTRL | OPTN | CMND | | ENTR | TAB  | SPAC |
 //                              | CTRL | OPTN | CMND | | ENTR | LYR2 | LYR1 |
 //                              `--------------------' `--------------------'
 //
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-// T(Letter) macro gets TD(#tapdanceindex) corresponding to the tapdanceactiontable (tap_dance_action_t)
 [_QWERTY] = LAYOUT(
-  KC_NO,     T(Q), KC_W, T(E), KC_R, KC_T,                   KC_Y, T(U), T(I),    T(O),   KC_P,        KC_NO,
-  oshSF,     T(A), T(S), KC_D, KC_F, KC_G,                   KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,     KC_BSPC,
-  oshSF,     KC_Z, KC_X, KC_C, KC_V, KC_B,                   T(N), KC_M, KC_COMM, KC_DOT, T(SLSH),     KC_MUTE,
-                         KC_LCTL, KC_LOPT, KC_LCMD,  KC_ENT, TABnL2,  SPCnL1
+  KC_NO,     KC_Q, KC_W, KC_E, KC_R, KC_T,                 KC_Y, KC_U, KC_I,    KC_O,   KC_P,       KC_NO,
+  oshSF,     KC_A, KC_S, KC_D, KC_F, KC_G,                 KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,    KC_BSPC,
+  espagn,    KC_Z, KC_X, KC_C, KC_V, KC_B,                 KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,    KC_MUTE,
+                        KC_LCTL, KC_LOPT, KC_LCMD,  KC_ENT, TABnL2,  SPCnL1
+  ),
+// Layer: _QWespagn
+// ,-------. <--- Encoder1 Key                                               Encoder2 Key  --->  ,--------.
+// |  MUTE +----------------------------------.               ,----------------------------------+  MUTE  |
+// `-------|   Q  |   W  |   E  |   R  |   T  |               |   Y  |   U  |   I  |   O  |   P  |--------'
+// ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
+// | tmpSHF|   A  |   S  |   D  |   F  |   G  |               |   H  |   J  |   K  |   L  |  ; : | BAKSPCE|
+// |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
+// | espbck|   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
+// `----------------------------+------+------+------. .------+------+------+--------------------+--------'
+//                              | CTRL | OPTN | CMND | | ENTR | TAB  | SPAC |
+//                              | CTRL | OPTN | CMND | | ENTR | LYR2 | LYR1 |
+//                              `--------------------' `--------------------'
+// Tapdance for Spanish
+// T(Letter) macro gets TD(#tapdanceindex) corresponding to the tapdanceactiontable (tap_dance_action_t)
+[_QWespagn] = LAYOUT(
+  _______,   T(Q), KC_W, T(E), KC_R, KC_T,               KC_Y, T(U), T(I),    T(O),   KC_P,      _______,
+  _______,   T(A), T(S), KC_D, KC_F, KC_G,               KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,   _______,
+  _______,   KC_Z, KC_X, KC_C, KC_V, KC_B,               T(N), KC_M, KC_COMM, KC_DOT, T(SLSH),   _______,
+                      _______, _______, _______,  _______, _______,  _______
   ),
 // Base Layer: NBERnSYM
 //
@@ -312,6 +333,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 }
 #endif
 
+#ifdef ENCODER_MAP_ENABLE
+ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][1] = {
+   [0] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+ };
+ #endif
+
 //****************************************************************//
 //*******************       MACROS        ************************//
 //****************************************************************//
@@ -392,16 +419,21 @@ bool led_update_user(led_t led_state) {
 // Callback for default layer functions, for users, on keyboard initialization.
 // sets initial state (asumes _QWERTY)
 layer_state_t default_layer_state_set_user(layer_state_t state) {
-    rgblight_sethsv_noeeprom(HSV_WHITE);
+    rgblight_sethsv_noeeprom(HSV_CYAN);
     // rgblight_setrgb (0x00,  0xFF, 0xFF);
     return state;
 }
+
 // callback function called every time the layer changes, passes the layer state
 // to the function and can be read or modified
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
+    case _QWespagn:
+        rgblight_sethsv_noeeprom(HSV_YELLOW);
+        // rgblight_setrgb (0xFF,  0x00, 0x00);
+        break;
     case _NBERnSYM:
-        rgblight_sethsv_noeeprom(HSV_CYAN);
+        rgblight_sethsv_noeeprom(HSV_MAGENTA);
         // rgblight_setrgb (0xFF,  0x00, 0x00);
         break;
     case _NAV:
@@ -409,7 +441,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         // rgblight_setrgb (0x00,  0xFF, 0x00);
         break;
     default: //  for any other layers (asumes _QWERTY)
-        rgblight_sethsv_noeeprom(HSV_WHITE);
+        rgblight_sethsv_noeeprom(HSV_CYAN);
         // rgblight_setrgb (0x00,  0xFF, 0xFF);
         break;
     }
@@ -423,7 +455,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 #ifdef OLED_ENABLE
 #   include "paimagenes.h"
-
     char wpm_str[10];
 
     static void render_logo(void) {
@@ -493,6 +524,8 @@ bool oled_task_user(void) {
     oled_write_P(PSTR("->"), false);
     if        ( _QWERTY   == currentlayer) {
         oled_write_P(PSTR("QWERTY"), false);
+    } else if ( _QWespagn == currentlayer) {
+        oled_write_P(PSTR("QWespagn"), false);
     } else if ( _NBERnSYM == currentlayer) {
         oled_write_P(PSTR("NBERnSYM"), false);
     } else if ( _NAV      == currentlayer) {

@@ -24,3 +24,6 @@
 #define RP_I2C_USE_I2C0 TRUE
 #undef  RP_I2C_USE_I2C1
 #define RP_I2C_USE_I2C1 FALSE
+
+#undef  RP_PWM_USE_PWM0
+#define RP_PWM_USE_PWM0 TRUE    // gp0 PWM0 A      gp1 PWM0 B
