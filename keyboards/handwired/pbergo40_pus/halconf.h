@@ -26,6 +26,6 @@
  * @brief   Enables the I2S subsystem.
  */
 // #if !defined(HAL_USE_I2S) || defined(__DOXYGEN__)
-#undef  HAL_USE_I2S
-#define HAL_USE_I2S                         TRUE
+// #undef  HAL_USE_I2S
+// #define HAL_USE_I2S                         TRUE
 // #endif

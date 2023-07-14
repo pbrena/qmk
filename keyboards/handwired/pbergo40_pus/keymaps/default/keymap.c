@@ -6,7 +6,7 @@
 //****************************************************************//
 #include QMK_KEYBOARD_H
 #include <stdio.h>
-#include "TclzoPCMuint8.h"
+// #include "paAudio.h"
 
 //****************************************************************//
 //*******************      Tap Dance      ************************//
@@ -83,9 +83,9 @@ void commonproc(uint8_t index, tap_dance_state_t *state) {
      // choose modification type for lower case vowels (logic asumes "dead" keys)
         switch (TDtype) {
          // case SINGLE_TAP:  --- NULL modification
-            case SINGLE_HOLD: tap_code_delay(    KC_LBRC,  10);  break;  // acento italiano
-            case DOUBLE_TAP:  tap_code_delay(    KC_QUOT,  10);  break;  // acento espagnol
-            case TRIPLE_TAP:  tap_code16_delay(S(KC_QUOT), 10);          // dieresis
+            case DOUBLE_TAP:  tap_code_delay(    KC_QUOT,   10);  break;  // acento espagnol
+            case SINGLE_HOLD: tap_code16_delay(S(KC_QUOT),  10);  break;  // dieresis
+            case TRIPLE_TAP:  tap_code_delay(    KC_LBRC,   10);          // acento italiano
         }
      // After modification (if any) original KeyCode will be tapped
         tap_code(typedkey);
@@ -209,8 +209,8 @@ enum layers {
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
 // | espagn|   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
-//                              | CTRL | OPTN | CMND | | ENTR | TAB  | SPAC |
-//                              | CTRL | OPTN | CMND | | ENTR | LYR2 | LYR1 |
+//                              | CTRL | OPTN | CMND | | TAB  | SPAC | ENTR |
+//                              | CTRL | OPTN | CMND | | LYR2 | LYR1 | ENTR |
 //                              `--------------------' `--------------------'
 //
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -218,7 +218,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,     KC_Q, KC_W, KC_E, KC_R, KC_T,                 KC_Y, KC_U, KC_I,    KC_O,   KC_P,       KC_NO,
   oshSF,     KC_A, KC_S, KC_D, KC_F, KC_G,                 KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,    KC_BSPC,
   espagn,    KC_Z, KC_X, KC_C, KC_V, KC_B,                 KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,    KC_MUTE,
-                        KC_LCTL, KC_LOPT, KC_LCMD,  KC_ENT, TABnL2,  SPCnL1
+                        KC_LCTL, KC_LOPT, KC_LCMD,   TABnL2, SPCnL1, KC_ENT
   ),
 // Layer: _QWespagn
 // ,-------. <--- Encoder1 Key                                               Encoder2 Key  --->  ,--------.
@@ -227,10 +227,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
 // | tmpSHF|   A  |   S  |   D  |   F  |   G  |               |   H  |   J  |   K  |   L  |  ; : | BAKSPCE|
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
-// | espbck|   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
+// | Togle |   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
-//                              | CTRL | OPTN | CMND | | ENTR | TAB  | SPAC |
-//                              | CTRL | OPTN | CMND | | ENTR | LYR2 | LYR1 |
+//                              | CTRL | OPTN | CMND | | TAB  | SPAC | ENTR |
+//                              | CTRL | OPTN | CMND | | LYR2 | LYR1 | ENTR |
 //                              `--------------------' `--------------------'
 // Tapdance for Spanish
 // T(Letter) macro gets TD(#tapdanceindex) corresponding to the tapdanceactiontable (tap_dance_action_t)
@@ -240,20 +240,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______,   KC_Z, KC_X, KC_C, KC_V, KC_B,               T(N), KC_M, KC_COMM, KC_DOT, T(SLSH),   _______,
                       _______, _______, _______,  _______, _______,  _______
   ),
-// Base Layer: NBERnSYM
 //
 // ,-------. <--- Encoder1 Key                                               Encoder2 Key  --->  ,--------.
 // |  MUTE +----------------------------------.               ,----------------------------------+  MUTE  |
-// `-------|  ! ` |  @   |  #   |  $   |  %   |               |   ^  |  &   |  *   |  (   |  )   |--------'
+// `-------|      |      |      |      |      |               |      |      |      |      |  ' " |--------'
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
-// |       |   1  |   2  |   3  |   4  |   5  |               |   6  |  7   |  8   |  9   |  0   |        |
+// |       |  1 ! |  2 @ |  3 # |  4 $ |  5 % |               |  6 ^ |  7 & |  8 * |  9 ( |  0 ) |        |
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
 // |       | BRIGD| BRIGU| VOLD | VOLU |   ~  |               |  - _ |  = + | [ {  | ] }  | \ |  |        |
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
-//                              |      |      |      | |      |      |(hold)|
+//                              |      |      |      | |      |(hold)|      |
 //                              `--------------------' `--------------------'
 [_NBERnSYM]    = LAYOUT(
-  _______,   KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,   _______,
+  _______,   _______, _______,   _______, _______,  _______,  _______, _______, _______, _______, KC_QUOT,   _______,
   _______,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,      _______,
   _______,   KC_BRMD, KC_BRMU, KC_VOLD, KC_VOLU, onlTIL,      KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,   _______,
                                _______, _______, _______,   _______, _______, _______
@@ -270,9 +269,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
 // |       |  F6  |  F7  |  F8  |  F9  |  F10 |               | ESC  |  LFT |  DWN |  RGT | FDEL |        |
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
-// |       |  F11 |  F12 |  F13 | `esc |   d  |               | END  | PGDN | Ejct |  <-  |  ->  |        |
+// |       |  F11 |  F12 |  F13 | `esc |   d  |               | END  | PGDN | Ejct |  <|  |  |>  |        |
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
-//                              |      |      |      | |      |(hold)|      |
+//                              |      |      |      | |(hold)|      |      |
 //                              `--------------------' `--------------------'
 [_NAV]    = LAYOUT(
   _______,  KC_F1,  KC_F2,  KC_F3,  KC_F4,   KC_F5,      KC_HOME, KC_PGUP, KC_UP,   KC_MCTL, KC_LPAD,  _______,
@@ -368,35 +367,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // NO JALA PROC STANDAR PROBABLEMENTE LOS LLAMADOS TIPO:
 //  ---> rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
-
-// // when keyboard CAPS active
-// const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-//     {1, 1, HSV_BLUE}       // Light 4 LEDs, starting with LED 12
-// );
-// // when keyboard layer _QWERTY is active
-// const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-//     {1, 1, HSV_WHITE}
-// );
-// // when keyboard layer _NBERnSYM is active
-// const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-//     {1, 1, HSV_CYAN}
-// );
-// // when keyboard layer _NAV is active
-// const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
-//     {1, 1, HSV_SPRINGGREEN}
-// );
-// // Now define the array of layers. Later layers take precedence
-// const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-//     my_capslock_layer,    // Overrides caps lock layer
-//     my_layer1_layer,      // Overrides other layers
-//     my_layer2_layer,
-//     my_layer3_layer
-// );
-// layer_state_t layer_state_set_user(layer_state_t state) {
-//     rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
-//     rgblight_set_layer_state(3, layer_state_cmp(state, _NAV));
-//     return state;
-// }
+// movido al final del fuente
 
 // PROCEDIMIENTO VIEJO:
 
@@ -412,14 +383,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // CpsLck, etc) change, return true will allow pass control, false wont
 bool led_update_user(led_t led_state) {
     if (led_state.caps_lock)
-        rgblight_sethsv_noeeprom(HSV_BLUE);
+        rgblight_sethsv_noeeprom(HSV_CYAN);
     // rgblight_setrgb (0x7A,  0x00, 0xFF);
     return true;
 }
 // Callback for default layer functions, for users, on keyboard initialization.
 // sets initial state (asumes _QWERTY)
 layer_state_t default_layer_state_set_user(layer_state_t state) {
-    rgblight_sethsv_noeeprom(HSV_CYAN);
+    rgblight_sethsv_noeeprom(HSV_BLUE);
     // rgblight_setrgb (0x00,  0xFF, 0xFF);
     return state;
 }
@@ -427,25 +398,21 @@ layer_state_t default_layer_state_set_user(layer_state_t state) {
 // callback function called every time the layer changes, passes the layer state
 // to the function and can be read or modified
 layer_state_t layer_state_set_user(layer_state_t state) {
-    switch (get_highest_layer(state)) {
-    case _QWespagn:
-        rgblight_sethsv_noeeprom(HSV_YELLOW);
-        // rgblight_setrgb (0xFF,  0x00, 0x00);
-        break;
-    case _NBERnSYM:
+
+    // Current Keyboard Layer
+    uint currentlayer = get_highest_layer(state);
+    if                          (currentlayer == _QWERTY   ) {
+        rgblight_sethsv_noeeprom(HSV_BLUE);
+    } else if                   (currentlayer == _QWespagn ) {
+        rgblight_sethsv_noeeprom(HSV_RED);
+    } else if                   (currentlayer == _NBERnSYM ) {
         rgblight_sethsv_noeeprom(HSV_MAGENTA);
-        // rgblight_setrgb (0xFF,  0x00, 0x00);
-        break;
-    case _NAV:
+    } else if                   (currentlayer == _NAV      ) {
         rgblight_sethsv_noeeprom(HSV_SPRINGGREEN);
-        // rgblight_setrgb (0x00,  0xFF, 0x00);
-        break;
-    default: //  for any other layers (asumes _QWERTY)
-        rgblight_sethsv_noeeprom(HSV_CYAN);
-        // rgblight_setrgb (0x00,  0xFF, 0xFF);
-        break;
+    } else {                               //    default
+        rgblight_sethsv_noeeprom(HSV_BLUE);
     }
-  return state; // returns layer state unmodified
+    return state; // returns layer state unmodified
 }
 #endif
 
@@ -522,20 +489,14 @@ bool oled_task_user(void) {
     uint currentlayer = get_highest_layer(layer_state|default_layer_state);
     oled_set_cursor(11, 7);
     oled_write_P(PSTR("->"), false);
-    if        ( _QWERTY   == currentlayer) {
-        oled_write_P(PSTR("QWERTY"), false);
-    } else if ( _QWespagn == currentlayer) {
-        oled_write_P(PSTR("QWespagn"), false);
-    } else if ( _NBERnSYM == currentlayer) {
-        oled_write_P(PSTR("NBERnSYM"), false);
-    } else if ( _NAV      == currentlayer) {
-        oled_write_P(PSTR("NAVIGATE"), false);
-    } else if ( _SYM      == currentlayer) {
-        oled_write_P(PSTR("SYMBOLS"), false);
-    } else if ( _FUNCTION == currentlayer) {
-        oled_write_P(PSTR("FUNCIONS"), false);
-    } else if ( _ADJUST   == currentlayer) {
-        oled_write_P(PSTR("ADJUST"), false);
+    if                       (currentlayer == _QWERTY   ) {
+      oled_write_P(PSTR("QWERTY"  ), false);
+    } else if                (currentlayer == _QWespagn ) {
+      oled_write_P(PSTR("QWespagn"), false);
+    } else if                (currentlayer == _NBERnSYM ) {
+      oled_write_P(PSTR("NBERnSYM"), false);
+    } else if                (currentlayer == _NAV      ) {
+      oled_write_P(PSTR("Navigate"), false);
     }
     return false;
 }
@@ -648,3 +609,36 @@ float tone_startup[][2] = {
     M__NOTE(_CS7, 20)
 };
 */
+
+
+// NO JALA PROC STANDAR PROBABLEMENTE LOS LLAMADOS TIPO:
+//  ---> rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
+// movido al final del fuente
+// // when keyboard CAPS active
+// const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_BLUE}       // Light 4 LEDs, starting with LED 12
+// );
+// // when keyboard layer _QWERTY is active
+// const rgblight_segment_t PROGMEM my_layer1_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_WHITE}
+// );
+// // when keyboard layer _NBERnSYM is active
+// const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_CYAN}
+// );
+// // when keyboard layer _NAV is active
+// const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+//     {1, 1, HSV_SPRINGGREEN}
+// );
+// // Now define the array of layers. Later layers take precedence
+// const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+//     my_capslock_layer,    // Overrides caps lock layer
+//     my_layer1_layer,      // Overrides other layers
+//     my_layer2_layer,
+//     my_layer3_layer
+// );
+// layer_state_t layer_state_set_user(layer_state_t state) {
+//     rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
+//     rgblight_set_layer_state(3, layer_state_cmp(state, _NAV));
+//     return state;
+// }

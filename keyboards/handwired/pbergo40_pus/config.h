@@ -6,7 +6,7 @@
 //#include "config_common.h"
 
 // This determines what a tap (vs hold) is  in ms
-#define TAPPING_TERM             250  // 200 Default was to slow to give tap option
+#define TAPPING_TERM             285  // 200 Default was to slow to give tap option
 #define HOLD_ON_OTHER_KEY_PRESS       // keeps old mod-taps behavior vs IGNORE_MOD_TAP_INTERRUPT
 //#define PERMISSIVE_HOLD             // This makes tap and hold keys work better for fast typists
 //#define TAPPING_TERM_PER_KEY        // For more granular control of this feature
@@ -100,8 +100,8 @@
     #define RGBLIGHT_MAX_LAYERS        4
     #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF  // If defined, lighting layers shown even if RGB is off
     #define RGBLIGHT_LAYERS_RETAIN_VAL
-    #define RGBLIGHT_LIMIT_VAL         100    // maximum brightness level
-    #define RGBLIGHT_DEFAULT_VAL       100    // default brightness level upon clearing the EEPROM
+    #define RGBLIGHT_LIMIT_VAL         80    // maximum brightness level
+    #define RGBLIGHT_DEFAULT_VAL       80    // default brightness level upon clearing the EEPROM
     #define RGBLIGHT_SLEEP                    // RGB lighting switched off when host goes to sleep
     #define RGBLIGHT_EFFECT_BREATHING
     #define RGBLIGHT_DEFAULT_MODE      RGBLIGHT_MODE_BREATHING
