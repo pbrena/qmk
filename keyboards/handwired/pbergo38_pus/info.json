@@ -1,10 +1,10 @@
 {
-    "keyboard_name": "QMKHandWrd/pbergo40_pus",
+    "keyboard_name": "QMKHandWrd/pbergo38_pus",
     "manufacturer": "DIY/Handwire",
-    "url": "https://github.com/pbrena/qmk/blob/paRsbPic/keyboards/handwired/pbergo40_pus/readme.md",
+    "url": "https://github.com/pbrena/qmk/blob/paRsbPic/keyboards/handwired/pbergo38_pus/readme.md",
     "maintainer": "pbrena",
     "usb": {
-        "device_version": "1.0.0",
+        "device_version": "1.1.0",
         "pid": "0x0000",
         "vid": "0xFEED"
     },
@@ -18,7 +18,7 @@
     "processor":  "RP2040",
     "layouts": {
         "LAYOUT": {
-            "layout": [
+            "layout": [  // manualy modified, only label relevant
                 {"label":"L00", "x":0, "y":0},
                 {"label":"L01", "x":0, "y":1},
                 {"label":"L02", "x":0, "y":2},

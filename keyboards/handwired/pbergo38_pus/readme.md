@@ -1,6 +1,6 @@
-# handwired/pbergo40_pus
+# handwired/pbergo38_pus
 
-![handwired/pbergo40_pus]
+![handwired/pbergo38_pus]
 
 SUMMARY {
 
@@ -28,16 +28,16 @@ non-QMK files (like KiCad and ERgogen) in misc folder
 
 * Commands 
 
-qmk config user.keyboard=handwired/pbergo40_pus user.keymap=default
-qmk compile -kb handwired/pbergo40_pus -km default
+qmk config user.keyboard=handwired/pbergo38_pus user.keymap=default
+qmk compile -kb handwired/pbergo38_pus -km default
 qmk compile -kb <keyboard> -km <keymap>
 qmk lint
 
 ## Bootloader
 
-Enter the bootloader in 3 ways:
+Enter the bootloader:
 
-* **ONLY RASPBERRY PICO BUTTON **: Hold down the button as normal procedure to reset
+* **ONLY RASPBERRY PICO BUTTON **: Hold down the exposed raspberry pico button while reconnecting as normal procedure for the pico.
 
 * **Bootmagic reset**: Hold down the key at (0,0) in the matrix (usually the top left key or Escape) and plug in the keyboard ---   NOT WIRED SO NOT POSSIBLE
-* **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available -- NOT AVAILABLE
+* **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available -- NOT configured

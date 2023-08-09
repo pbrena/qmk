@@ -7,6 +7,8 @@
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 // #include "paAudio.h"
+#include "keymap_spanish.h"
+// #include sendstring_spanish.h
 
 //****************************************************************//
 //*******************      Tap Dance      ************************//
@@ -33,7 +35,8 @@ enum TDindexes {
 };
 
 // ...also each index corresponds to a single (still unmodified) KC: from idxA to idxN
-// WARNING TDindex & KC4idx must logically match: see for example idxX <-> KC4idx[idxX] = KC_X
+// WARNING TDindex & KC4idx must logically match: see for example idxX <-> KC4idx[idxX = KC_X
+// MIGHT require mod if alternate language *like Spanished* logic is modified
 uint16_t KC4idx[MAXINDEX] = { KC_A, KC_E, KC_I, KC_O, KC_U, KC_N, KC_S, KC_Q, KC_SLSH };
 
 enum  {
@@ -70,62 +73,32 @@ uint8_t determin_taptype(tap_dance_state_t *state) {
 // and according to Tap Dance Type registered
 void commonproc(uint8_t index, tap_dance_state_t *state) {
     // Warning: PC/Mac OS should use ES keymap to correctly render tildes
-    // i only could make it work with lowercases
+    // i could make it work only with lowercases.
     // first determine variables:
     uint16_t typedkey   = KC4idx[index];
     uint8_t  TDtype     = determin_taptype(state);
-    if ( KC_N == typedkey ) {
-        if ( SINGLE_TAP == TDtype )
-            tap_code_delay(KC_N,    10);
-        else
-            tap_code_delay(KC_SCLN, 10);
-    } else {
-     // choose modification type for lower case vowels (logic asumes "dead" keys)
-        switch (TDtype) {
-         // case SINGLE_TAP:  --- NULL modification
-            case DOUBLE_TAP:  tap_code_delay(    KC_QUOT,   10);  break;  // acento espagnol
-            case SINGLE_HOLD: tap_code16_delay(S(KC_QUOT),  10);  break;  // dieresis
-            case TRIPLE_TAP:  tap_code_delay(    KC_LBRC,   10);          // acento italiano
-        }
-     // After modification (if any) original KeyCode will be tapped
-        tap_code(typedkey);
+    // if ( ES_N == typedkey ) {
+    //     if ( SINGLE_TAP == TDtype )
+    //         tap_code_delay(ES_N,    10);
+    //     else
+    //         tap_code_delay(ES_NTIL, 10);
+    // } else {
+    // choose modification type for lower case vowels (logic asumes "dead" keys)
+    switch (TDtype) {
+        // case SINGLE_TAP:  --- NULL modification
+        case DOUBLE_TAP:  tap_code_delay(  ES_ACUT,  10);  break;  // acento espagnol
+        case SINGLE_HOLD: tap_code16_delay(ES_DIAE,  10);  break;  // dieresis
+        case TRIPLE_TAP:  tap_code_delay(  ES_GRV,   10);          // acento italiano
+        // case TRIPLE_TAP:  tap_code_delay(  KC_LBRC,  10);          // acento italianoES_GRV
     }
+    // After modification (if any) original KeyCode will be tapped
+    tap_code(typedkey);
+    // }
 }
-// void commonproc(uint8_t index, tap_dance_state_t *state) {
-//     // Warning: PC/Mac OS should use ES keymap to correctlt render spanish mods
-//     // first determine variables:
-//     uint16_t typedkey   = KC4idx[index];
-//     uint8_t  TDtype     = determin_taptype(state);
-//     if ( KC_N == typedkey ) {
-//         if ( SINGLE_TAP == TDtype )
-//             tap_code_delay(KC_N,    10);
-//         else
-//             tap_code_delay(KC_SCLN, 10);
-//     } else {
-//          // choose modification type for lower case vowels (logic asumes "dead" keys)
-//         switch (TDtype) {
-//          // case SINGLE_TAP:  --- NULL modification
-//             case SINGLE_HOLD: tap_code_delay(    KC_LBRC,  10);  break;  // acento italiano
-//             case DOUBLE_TAP:  tap_code_delay(    KC_QUOT,  10);  break;  // acento espagnol
-//             case TRIPLE_TAP:  tap_code16_delay(S(KC_QUOT), 10);          // dieresis
-//         }
-//         // save and clear if uppercase
-//         uint uppercase  = ( get_oneshot_mods() & MOD_MASK_SHIFT );  // Boolean
-//         clear_oneshot_mods();
-//         // After modification (if any) verify caps
-//         if ( 0 == uppercase )
-//             tap_code_delay(  typedkey,  10);
-//         else {
-//             clear_mods();
-//             if  (TDtype == DOUBLE_TAP)
-//                 tap_code16_delay(ALGR(typedkey),  10); // acento espagnol en mayusculas
-//         }
-//     }
-// }
 
 // Individual functions for each index.
-// Note: that both index and state pointer (so as not to loose state pointer
-// locally scoped) are passed as parms to a common function for selective procesing.
+// Note: that both index and state pointer are passed as parms to a common function
+// (so as not to loose state pointer locally scoped) for selective procesing.
 // Also: the FunctionName implies -> the corresponding index (an enum constant)
 void for_idxA(tap_dance_state_t *state, void *user_data) {
     commonproc(idxA, state);
@@ -142,9 +115,6 @@ void for_idxO(tap_dance_state_t *state, void *user_data) {
 void for_idxU(tap_dance_state_t *state, void *user_data) {
     commonproc(idxU, state);
 }
-void for_idxN(tap_dance_state_t *state, void *user_data) {
-    commonproc(idxN, state);
-}
 
 tap_dance_action_t tap_dance_actions[] = {
     [idxA]    = ACTION_TAP_DANCE_FN(for_idxA),                // Vocales acentuadas o dieresis
@@ -152,10 +122,10 @@ tap_dance_action_t tap_dance_actions[] = {
     [idxI]    = ACTION_TAP_DANCE_FN(for_idxI),
     [idxO]    = ACTION_TAP_DANCE_FN(for_idxO),
     [idxU]    = ACTION_TAP_DANCE_FN(for_idxU),
-    [idxN]    = ACTION_TAP_DANCE_FN(for_idxN),                  // ñ
-    [idxS]    = ACTION_TAP_DANCE_DOUBLE(KC_S,    LALT(KC_B)),   // ß eszet
-    [idxQ]    = ACTION_TAP_DANCE_DOUBLE(KC_Q,    KC_EQL),       // ¿
-    [idxSLSH] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, LSFT(KC_EQL)), // ¡
+    [idxN]    = ACTION_TAP_DANCE_DOUBLE(ES_N,    ES_NTIL),   // ñ
+    [idxS]    = ACTION_TAP_DANCE_DOUBLE(ES_S, LALT(KC_B)),   // ß eszet
+    [idxQ]    = ACTION_TAP_DANCE_DOUBLE(ES_Q,    ES_IQUE),   // ¿
+    [idxSLSH] = ACTION_TAP_DANCE_DOUBLE(ES_SLSH, ES_IEXL),   // ¡
 };
 
 #endif
@@ -167,7 +137,7 @@ enum layers {
     _QWERTY = 0,
     _QWespagn,
     _NBERnSYM,
-    _NAV,
+    _NAVnFUN,
     _SYM,
     _FUNCTION,
     _ADJUST,
@@ -175,7 +145,7 @@ enum layers {
 
 // #define NUM      MO(_NUMnSYM)
 // #define SYM      MO(_SYM)
-// #define NAV      MO(_NAV)
+// #define NAV      MO(_NAVnFUN)
 // #define FKEYS    MO(_FUNCTION)
 // #define ADJUST   MO(_ADJUST)
 
@@ -184,8 +154,8 @@ enum layers {
 #define espagn TG(_QWespagn)
 #define onlTIL LSFT(KC_GRV)
 #define SPCnL1 LT(_NBERnSYM, KC_SPACE) /* Tap for space, hold for layer */
-#define TABnL2 LT(_NAV,      KC_TAB)  /* Tap for enter, hold for layer */
-// #define ENTnL2  LT(_NAV,     KC_ENT)  /* Tap for enter, hold for layer */
+#define TABnL2 LT(_NAVnFUN,  KC_TAB)  /* Tap for enter, hold for layer */
+// #define ENTnL2  LT(_NAVnFUN,     KC_ENT)  /* Tap for enter, hold for layer */
 // #define K_BSPFN LT(_SYMB,    KC_BSPC)  /* Tap for backspace, hold for layer */
 // #define W_ENTLW LT(_W_LOWER, KC_ENT)  /* Tap for enter, hold for layer */
 
@@ -222,12 +192,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 // Layer: _QWespagn
 // ,-------. <--- Encoder1 Key                                               Encoder2 Key  --->  ,--------.
-// |  MUTE +----------------------------------.               ,----------------------------------+  MUTE  |
-// `-------|   Q  |   W  |   E  |   R  |   T  |               |   Y  |   U  |   I  |   O  |   P  |--------'
+// |       +----------------------------------.               ,----------------------------------+        |
+// `-------| Q _¿ |   W  |   E  |   R  |   T  |               |   Y  |   U  |   I  |   O  |   P  |--------'
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
-// | tmpSHF|   A  |   S  |   D  |   F  |   G  |               |   H  |   J  |   K  |   L  |  ; : | BAKSPCE|
+// |       |   A  |   S  |   D  |   F  |   G  |               |   H  |   J  |   K  |   L  |   ;  |        |
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
-// | Togle |   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , < |  . > |  / ? |   MUTE |
+// | Togle |   Z  |   X  |   C  |   V  |   B  |               |   N  |   M  |  , ; |  . : | / _¡ |        |
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
 //                              | CTRL | OPTN | CMND | | TAB  | SPAC | ENTR |
 //                              | CTRL | OPTN | CMND | | LYR2 | LYR1 | ENTR |
@@ -235,9 +205,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Tapdance for Spanish
 // T(Letter) macro gets TD(#tapdanceindex) corresponding to the tapdanceactiontable (tap_dance_action_t)
 [_QWespagn] = LAYOUT(
-  _______,   T(Q), KC_W, T(E), KC_R, KC_T,               KC_Y, T(U), T(I),    T(O),   KC_P,      _______,
-  _______,   T(A), T(S), KC_D, KC_F, KC_G,               KC_H, KC_J, KC_K,    KC_L,   KC_SCLN,   _______,
-  _______,   KC_Z, KC_X, KC_C, KC_V, KC_B,               T(N), KC_M, KC_COMM, KC_DOT, T(SLSH),   _______,
+  _______,   T(Q), ES_W, T(E), ES_R, ES_T,               ES_Y, T(U), T(I),    T(O),   ES_P,      _______,
+  _______,   T(A), T(S), ES_D, ES_F, ES_G,               ES_H, ES_J, ES_K,    ES_L,   ES_SCLN,   _______,
+  _______,   ES_Z, ES_X, ES_C, ES_V, ES_B,               T(N), ES_M, ES_COMM, ES_DOT, T(SLSH),   _______,
                       _______, _______, _______,  _______, _______,  _______
   ),
 //
@@ -247,17 +217,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ,-------+------+------+------+------+------|               |------+------+------+------+------+--------.
 // |       |  1 ! |  2 @ |  3 # |  4 $ |  5 % |               |  6 ^ |  7 & |  8 * |  9 ( |  0 ) |        |
 // |-------+------+------+------+------+------+               +------+------+------+------+------+--------+
-// |       | BRIGD| BRIGU| VOLD | VOLU |   ~  |               |  - _ |  = + | [ {  | ] }  | \ |  |        |
+// |       | BRIGD| BRIGU| VOLD | VOLU |   ~  |               |  - _ |  = + |  [ { |  ] } |  \ | |        |
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
 //                              |      |      |      | |      |(hold)|      |
 //                              `--------------------' `--------------------'
-[_NBERnSYM]    = LAYOUT(
+[_NBERnSYM] = LAYOUT(
   _______,   _______, _______,   _______, _______,  _______,  _______, _______, _______, _______, KC_QUOT,   _______,
   _______,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,      _______,
   _______,   KC_BRMD, KC_BRMU, KC_VOLD, KC_VOLU, onlTIL,      KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,   _______,
                                _______, _______, _______,   _______, _______, _______
   ),
-// Base Layer: NBERnSYM
+// Base Layer: NAVnFUN
 // KC_GRV vs QK_GESC. Most of the time this key will output KC_ESC when pressed.
 // However, when Shift or GUI are held down it will output KC_GRV instead.
 // On macOS, Command+` is by default mapped to “Move focus to next window” so it will not output a backtick.
@@ -273,7 +243,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // `----------------------------+------+------+------. .------+------+------+--------------------+--------'
 //                              |      |      |      | |(hold)|      |      |
 //                              `--------------------' `--------------------'
-[_NAV]    = LAYOUT(
+[_NAVnFUN] = LAYOUT(
   _______,  KC_F1,  KC_F2,  KC_F3,  KC_F4,   KC_F5,      KC_HOME, KC_PGUP, KC_UP,   KC_MCTL, KC_LPAD,  _______,
   _______,  KC_F6,  KC_F7,  KC_F8,  KC_F9,   KC_F10,     KC_ESC,  KC_LEFT, KC_DOWN, KC_RGHT, KC_DEL,   _______,
   _______,  KC_F11, KC_F12, KC_F13, QK_GESC, KC_D,       KC_END,  KC_PGDN, KC_EJCT, KC_MPRV, KC_MNXT,  _______,
@@ -407,7 +377,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         rgblight_sethsv_noeeprom(HSV_RED);
     } else if                   (currentlayer == _NBERnSYM ) {
         rgblight_sethsv_noeeprom(HSV_MAGENTA);
-    } else if                   (currentlayer == _NAV      ) {
+    } else if                   (currentlayer == _NAVnFUN  ) {
         rgblight_sethsv_noeeprom(HSV_SPRINGGREEN);
     } else {                               //    default
         rgblight_sethsv_noeeprom(HSV_BLUE);
@@ -492,11 +462,11 @@ bool oled_task_user(void) {
     if                       (currentlayer == _QWERTY   ) {
       oled_write_P(PSTR("QWERTY"  ), false);
     } else if                (currentlayer == _QWespagn ) {
-      oled_write_P(PSTR("QWespagn"), false);
+      oled_write_P(PSTR("QwerEspa"), false);
     } else if                (currentlayer == _NBERnSYM ) {
       oled_write_P(PSTR("NBERnSYM"), false);
-    } else if                (currentlayer == _NAV      ) {
-      oled_write_P(PSTR("Navigate"), false);
+    } else if                (currentlayer == _NAVnFUN  ) {
+      oled_write_P(PSTR("NAVIGnFn"), false);
     }
     return false;
 }
@@ -626,7 +596,7 @@ float tone_startup[][2] = {
 // const rgblight_segment_t PROGMEM my_layer2_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 //     {1, 1, HSV_CYAN}
 // );
-// // when keyboard layer _NAV is active
+// // when keyboard layer _NAVnFUN is active
 // const rgblight_segment_t PROGMEM my_layer3_layer[] = RGBLIGHT_LAYER_SEGMENTS(
 //     {1, 1, HSV_SPRINGGREEN}
 // );
@@ -639,6 +609,6 @@ float tone_startup[][2] = {
 // );
 // layer_state_t layer_state_set_user(layer_state_t state) {
 //     rgblight_set_layer_state(2, layer_state_cmp(state, _NBERnSYM));
-//     rgblight_set_layer_state(3, layer_state_cmp(state, _NAV));
+//     rgblight_set_layer_state(3, layer_state_cmp(state, _NAVnFUN));
 //     return state;
 // }
