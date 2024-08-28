@@ -32,6 +32,9 @@ qmk config user.keyboard=handwired/pbergo38_pus user.keymap=default
 qmk compile -kb handwired/pbergo38_pus -km default
 qmk compile -kb <keyboard> -km <keymap>
 
+* Ojo: al actualizar Qmk se requiere limpiar compilaciones anteriores.
+
+qmk clean -a
 
 ## Bootloader
 

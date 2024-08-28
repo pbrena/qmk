@@ -97,7 +97,7 @@
 #ifdef RGBLIGHT_ENABLE
 // Raspberry Pi RP2040 boards where WS2812 (RGB) support is offloaded to an dedicated peripherals called
 // PIO blocks, it also contains 2: 0 & 1, by default the WS2812 implementation uses the PIO0
-    #define RGBLED_NUM                 1     // Number of LEDs
+    #define RGBLIGHT_LED_COUNT         2
     #define RGBLIGHT_EFFECT_RGB_TEST
     #define RGBLIGHT_DEFAULT_HUE       180
     #define RGBLIGHT_HUE_STEP          10
@@ -113,7 +113,7 @@
     #define RGBLIGHT_EFFECT_BREATHING
     #define RGBLIGHT_DEFAULT_MODE      RGBLIGHT_MODE_BREATHING
     #define WS2812_DI_PIN              GP0
-    #define WS2812_PIO_USE_PIO1               // PIO0 and PIO1 can connect to all GPIO pins
+    #define WS2812_PIO_USE_PIO1              // PIO0 and PIO1 can connect to all GPIO pins
     #define WS2812_PORTREG             PORTP
     #define WS2812_DDRREG              DDRP
     #define WS2812_TRST_US             280  // TRST period. The default setting is 280µs
