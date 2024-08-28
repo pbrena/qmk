@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Volumes/HDD/movUsers/awiwi/Developer/qmk_firmware/keyboards/handwired/pbergo38_pus",
+      "program": "/Volumes/HDD/movUsers/awiwi/Developer/qmk_firmware/keyboards/handwired/pbergo38_pus/build/Debug/outDebug"
+    }
+  ]
+}

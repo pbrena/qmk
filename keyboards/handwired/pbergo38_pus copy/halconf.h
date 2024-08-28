@@ -22,10 +22,10 @@
 #include_next <halconf.h>
 #define HAL_USE_I2C    TRUE
 
-/*
-   @brief   Enables the I2S subsystem.
-*/
+/**
+ * @brief   Enables the I2S subsystem.
+ */
 // #if !defined(HAL_USE_I2S) || defined(__DOXYGEN__)
 // #undef  HAL_USE_I2S
-// #define HAL_USE_I2S  TRUE
+// #define HAL_USE_I2S                         TRUE
 // #endif

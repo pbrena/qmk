@@ -5,11 +5,8 @@
 
 //#include "config_common.h"
 
-// 
-#define DEBOUNCE                  10  // To aboid contact chatter, Default was 10 
-
 // This determines what a tap (vs hold) is  in ms
-#define TAPPING_TERM             285
+#define TAPPING_TERM             285  // 200 Default was to slow to give tap option
 #define HOLD_ON_OTHER_KEY_PRESS       // keeps old mod-taps behavior vs IGNORE_MOD_TAP_INTERRUPT
 //#define PERMISSIVE_HOLD             // This makes tap and hold keys work better for fast typists
 //#define TAPPING_TERM_PER_KEY        // For more granular control of this feature
@@ -27,16 +24,12 @@
 #define NO_PRINT
 #endif // !NO_PRINT
 
-//  pa Haptic-feedback
-#define SOLENOID_PIN            GP11
-#define HAPTIC_OFF_IN_LOW_POWER 1
-
 /*  also disabled options are:
 #define NO_ACTION_LAYER
 #define NO_ACTION_TAPPING
 #define NO_ACTION_ONESHOT
 */
-    
+
 // QK_GESC=grave escape will break several possible key combinations, among them: Command+Option+Escape on macOS
 // To work around this you can:
 #define GRAVE_ESC_SHIFT_OVERRIDE // Always send Escape if Shift is pressed

@@ -8,7 +8,7 @@ BOARD      = GENERIC_RP_RP2040
 CONSOLE_ENABLE      = yes
 TAP_DANCE_ENABLE    = yes
 AUDIO_ENABLE        = no       # Audio output
-ENCODER_ENABLE      = no	# Ojo
+ENCODER_ENABLE      = yes
 ENCODER_MAP_ENABLE  = no       # Audio ??
 LTO_ENABLE          = yes      # Enables Link Time Optimization
 OLED_ENABLE         = yes
@@ -23,8 +23,5 @@ XTRAFLAGS          += -flto
 RGBLIGHT_ENABLE     = yes      # Enable keyboard RGB underglow
 WS2812_DRIVER       = vendor
 # AUDIO_DRIVER      = pwm_hardware
-HAPTIC_ENABLE       = yes
-HAPTIC_DRIVER       = solenoid
-
 
 # Raspberry Pi RP2040 boards where WS2812 (RGB) support is offloaded to an dedicated PIO
